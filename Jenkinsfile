@@ -1,18 +1,18 @@
 pipeline {
     agent {
-        label 'electronix'
+        label 'electronics'
     }
 
     stages {
-        stage("I am from Electronix") {
+        stage("I am from electronics") {
             steps {
-                echo "Hello from Electronix"
+                echo "Hello from electronics"
             }
         }
 
         stage("Electronix Setup") {
             steps {
-                echo "Electronix setup is working"
+                echo "electronics setup is working"
             }
         }
     }
