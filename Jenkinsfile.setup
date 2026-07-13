@@ -5,5 +5,12 @@ pipeline {
         stage("Tools Congigure"){
             steps {echo "Tools Installation pipeline"}
         }
+    stage ("List Update"){
+        steps {
+            sh ''
+            sudo apt-get update -y
+            ''
+        }
+    }
     }
 }
