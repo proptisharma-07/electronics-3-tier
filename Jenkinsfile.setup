@@ -1,5 +1,5 @@
-pipeline{
-    agent {lable 'electronics'}
+pipeline {
+    agent { label 'electronics' }
 
     stages{
         stage("Tools Congigure"){
