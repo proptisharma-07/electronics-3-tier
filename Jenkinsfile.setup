@@ -1,16 +1,23 @@
 pipeline {
-    agent { label 'electronics' }
-
-    stages{
-        stage("Tools Congigure"){
-            steps {echo "Tools Installation pipeline"}
-        }
-    stage ("List Update"){
-        steps {
-            sh ''
-            sudo apt-get update -y
-            ''
-        }
+    agent {
+        label 'electronics'
     }
+
+    stages {
+
+        stage('Tools Configure') {
+            steps {
+                echo "Tools Installation Pipeline"
+            }
+        }
+
+        stage('List Update') {
+            steps {
+                sh '''
+                    sudo apt-get update -y
+                '''
+            }
+        }
+
     }
 }
