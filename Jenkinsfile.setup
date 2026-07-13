@@ -1,0 +1,9 @@
+pipeline{
+    agent {lable 'electronics'}
+
+    stage{
+        stage("Tools Congigure"){
+            step {echo "Tools Installation pipeline"}
+        }
+    }
+}
