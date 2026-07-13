@@ -3,7 +3,7 @@ pipeline{
 
     stages{
         stage("Tools Congigure"){
-            step {echo "Tools Installation pipeline"}
+            steps {echo "Tools Installation pipeline"}
         }
     }
 }
