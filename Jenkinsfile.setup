@@ -17,7 +17,7 @@ pipeline {
                 echo "Node JS Runtime Successfully Installed ✅"
                 '''
             }
-
+        }
 
         stage("Provision Docker Engine"){
             steps{
@@ -35,10 +35,10 @@ pipeline {
 
                 sudo apt-get update -y
                 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-                fi 
+                fi
 
                 docker --version
-                echo 'Docker Installed Done ✅"
+                echo "Docker Installed Done ✅"
                 '''
             }
         }
@@ -51,7 +51,7 @@ pipeline {
                 fi
                 mysql --version
 
-                echo "mysql Done✅"
+                echo "Mysql Done ✅"
                 '''
             }
         }
