@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'electronix'}
+    agent { label 'electronics'}
 
     environment{
         S3_BUCKET='electronics-production-2002'
