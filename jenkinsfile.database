@@ -16,7 +16,7 @@ pipeline{
         }
 
         failure {
-           echo 'Database Failed ❌'
+           echo 'Database Failed '
         }
     }
     
