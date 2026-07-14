@@ -1,0 +1,21 @@
+pipeline{
+    agent {label 'electronics'}
+
+    stages{
+        stage('Creating Database')
+        steps{
+            sh 'python3 scripts/create_db.py'
+        }
+    }
+
+     post{
+        success{
+            echo 'Database Creation Successfull ✅'
+        }
+
+        failure {
+           echo 'Databse Failed ❌'
+
+        }       
+    }
+}
