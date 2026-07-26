@@ -2,19 +2,52 @@ pipeline{
     agent {label 'electronics'}
 
     environment {
-        ECR_REPO='250063290505.dkr.ecr.eu-north-1.amazonaws.com/electronix-ecr'
+        ECR_REPO='250063290505.dkr.ecr.eu-north-1.amazonaws.com/electronics-ecr'
         AWS_REGION = "eu-north-1"
+        PRODUCTION_IP='16.171.93.167'
     }
 
-    stages{
-        stage("Test ECR Login"){
-            steps {
-                sh '''
-                aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}
-                '''
+    stage('Backend PipeLine'){
+        // when {
+        //     changeset "backend/**"
+        // }
+
+        stages{
+
+            stage('Build Docker Image'){
+                steps{
+                    dir("backend"){
+                        sh 'docker build -t electronics-backend:${BUILD_NUMBER}'
+                    }
+                }
+            }
+
+            stage("Test ECR Login"){
+                steps {
+                    sh '''
+                    aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}
+                    '''
+                }
+            }
+
+            stage ("Tag & Push to ECR"){
+                steps{
+                    sh '''
+                    docker tag electronics-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
+                    docker tag electronics-backend:${ECR_REPO}:latest
+                    docker push ${ECR_REPO}:${BUILD_NUMBER}
+                    docker push ${ECR_REPO}:latest
+
+                    echo "Pushed Success ✅"
+                    '''
+                }
             }
         }
-    }
+
+
+}
+
+    
  
   post {
     success{
