@@ -2,7 +2,7 @@ pipeline{
     agent {label 'electronics'}
 
     environment {
-        ECR_REPO='250063290505.dkr.ecr.eu-north-1.amazonaws.com/electronix-ecr'
+        ECR_REPO='250063290505.dkr.ecr.eu-north-1.amazonaws.com/electronics-ecr'
         AWS_REGION = "eu-north-1"
         PRODUCTION_IP='16.171.93.167'
     }
@@ -12,11 +12,102 @@ pipeline{
             stage('Build Docker Image'){
                 steps{
                     dir("backend"){
-                        sh 'sudo docker build -t electronix-backend:${BUILD_NUMBER} .'
+                        sh 'sudo docker build -t electronics-backend:${BUILD_NUMBER} .'
                     }
                 }
             }
+pipeline {
 
+    agent { label 'electronics' }
+
+
+    environment {
+        ECR_REPO = '250063290505.dkr.ecr.eu-north-1.amazonaws.com/electronics-ecr'
+        AWS_REGION = 'eu-north-1'
+        PRODUCTION_IP = '16.171.93.167'
+    }
+
+
+    stages {
+
+
+        stage('Build Docker Image') {
+
+            steps {
+
+                dir("backend") {
+
+                    sh '''
+                    sudo docker build -t electronics-backend:${BUILD_NUMBER} .
+                    '''
+
+                }
+
+            }
+
+        }
+
+
+
+        stage("Test ECR Login") {
+
+            steps {
+
+                sh '''
+                aws ecr get-login-password --region ${AWS_REGION} | \
+                sudo docker login --username AWS --password-stdin ${ECR_REPO}
+                '''
+
+            }
+
+        }
+
+
+
+        stage("Tag & Push to ECR") {
+
+            steps {
+
+                sh '''
+                sudo docker tag electronics-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
+
+                sudo docker tag electronics-backend:${BUILD_NUMBER} ${ECR_REPO}:latest
+
+
+                sudo docker push ${ECR_REPO}:${BUILD_NUMBER}
+
+                sudo docker push ${ECR_REPO}:latest
+
+
+                echo "Pushed Success ✅"
+                '''
+
+            }
+
+        }
+
+    }
+
+
+
+    post {
+
+        success {
+
+            echo "ECR login and Push Success ✅"
+
+        }
+
+
+        failure {
+
+            echo "Pipeline Failed ❌"
+
+        }
+
+    }
+
+}
             stage("Test ECR Login"){
                 steps {
                     sh '''
