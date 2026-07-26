@@ -28,10 +28,10 @@ pipeline{
             stage ("Tag & Push to ECR"){
                 steps{
                     sh '''
-                    sudo Docker tag electronics-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
-                    sudo Docker tag electronics-backend:${BUILD_NUMBER} ${ECR_REPO}:latest
-                    sudo Docker push ${ECR_REPO}:${BUILD_NUMBER}
-                    sudo Docker push ${ECR_REPO}:latest
+                    sudo docker tag electronics-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
+                    sudo docker tag electronics-backend:${BUILD_NUMBER} ${ECR_REPO}:latest
+                    sudo docker push ${ECR_REPO}:${BUILD_NUMBER}
+                    sudo docker push ${ECR_REPO}:latest
 
                     echo "Pushed Success ✅"
                     '''
