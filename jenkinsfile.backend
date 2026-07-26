@@ -3,7 +3,7 @@ pipeline{
 
     environment {
         ECR_REPO=250063290505.dkr.ecr.eu-north-1.amazonaws.com
-        AWS_REGION = "US-WEST-1"
+        AWS_REGION = "eu-north-1"
 
     }
 
